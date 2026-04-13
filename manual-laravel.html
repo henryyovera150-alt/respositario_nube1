@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Completo de Laravel 12</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; line-height: 1.7; }
+.wrapper { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.header { border-bottom: 1px solid #e0ddd5; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+.header h1 { font-size: 26px; font-weight: 600; color: #111; }
+.header p { font-size: 15px; color: #666; margin-top: 6px; }
+.badge { display: inline-block; background: #E6F1FB; color: #185FA5; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; margin-top: 8px; margin-right: 6px; }
+.nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+.nav-btn { font-size: 13px; color: #555; background: #fff; border: 1px solid #ddd; padding: 7px 15px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover, .nav-btn.active { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+.section { display: none; }
+.section.active { display: block; }
+.section-title { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid #e0ddd5; }
+.card { background: #fff; border: 1px solid #e0ddd5; border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1rem; }
+.card h3 { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.5rem; }
+.card p, .card li { font-size: 14px; color: #555; line-height: 1.7; }
+.card ul { padding-left: 1.3rem; }
+.card li { margin-bottom: 4px; }
+pre { background: #1e1e2e; border-radius: 8px; padding: 1rem 1.1rem; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 12.5px; color: #cdd6f4; line-height: 1.65; margin: 0.75rem 0; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-right: 5px; }
+.tag-new { background: #EAF3DE; color: #3B6D11; }
+.tag-config { background: #FAEEDA; color: #633806; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:620px){ .two-col { grid-template-columns: 1fr; } }
+.step { display: flex; gap: 12px; margin-bottom: 1rem; align-items: flex-start; }
+.step-num { min-width: 28px; height: 28px; background: #E6F1FB; color: #185FA5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+.step-content h4 { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.step-content p { font-size: 13px; color: #666; }
+.tip { background: #EAF3DE; border-left: 3px solid #639922; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 13px; color: #3B6D11; }
+.warn { background: #FAEEDA; border-left: 3px solid #BA7517; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 13px; color: #633806; }
+.info { background: #E6F1FB; border-left: 3px solid #378ADD; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 13px; color: #185FA5; }
+footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e0ddd5; font-size: 12px; color: #999; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>Manual Completo de Laravel</h1>
+    <p>Guía detallada: instalación, configuración, Apache, CORS, Sanctum, migraciones y más</p>
+    <span class="badge">Laravel 12</span>
+    <span class="badge">PHP 8.2+</span>
+    <span class="badge">Symfony 7</span>
+    <span class="badge">2025</span>
+  </div>
+
+  <div class="nav" id="nav">
+    <button class="nav-btn active" onclick="show('intro')">Introducción</button>
+    <button class="nav-btn" onclick="show('instalacion')">Instalación</button>
+    <button class="nav-btn" onclick="show('apache')">Apache</button>
+    <button class="nav-btn" onclick="show('config')">Configuración</button>
+    <button class="nav-btn" onclick="show('cors')">CORS</button>
+    <button class="nav-btn" onclick="show('sanctum')">Sanctum</button>
+    <button class="nav-btn" onclick="show('migraciones')">Migraciones</button>
+    <button class="nav-btn" onclick="show('eloquent')">Eloquent ORM</button>
+    <button class="nav-btn" onclick="show('rutas')">Rutas &amp; API</button>
+    <button class="nav-btn" onclick="show('v12')">Novedades v12</button>
+  </div>
+
+  <!-- INTRO -->
+  <div id="intro" class="section active">
+    <div class="section-title">¿Qué es Laravel?</div>
+    <div class="card">
+      <h3>Framework PHP MVC de alto nivel</h3>
+      <p>Laravel es el framework PHP más popular del mundo. Sigue el patrón MVC (Modelo-Vista-Controlador) y provee herramientas para construir aplicaciones web y APIs de manera elegante, rápida y segura.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Características principales</h3>
+        <ul>
+          <li>Eloquent ORM (base de datos)</li>
+          <li>Blade (motor de plantillas)</li>
+          <li>Artisan (CLI poderosa)</li>
+          <li>Migraciones de base de datos</li>
+          <li>Sistema de colas y jobs</li>
+          <li>Broadcasting en tiempo real</li>
+          <li>Sanctum &amp; Passport (auth)</li>
+          <li>Testing integrado con Pest</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Versión actual: Laravel 12</h3>
+        <ul>
+          <li>Lanzado: 24 febrero 2025</li>
+          <li>PHP mínimo: 8.2</li>
+          <li>Basado en Symfony 7</li>
+          <li>Soporte bugs: 18 meses</li>
+          <li>Soporte seguridad: 2 años</li>
+          <li>Starter kits: React, Vue, Svelte, Livewire</li>
+          <li>Inertia.js v2 + shadcn/ui</li>
+          <li>WorkOS AuthKit (SSO, passkeys)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estructura de directorios</h3>
+      <pre>mi-proyecto/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/    # Controladores
+│   │   ├── Middleware/     # Middleware
+│   │   └── Requests/       # Form Requests (validación)
+│   ├── Models/             # Modelos Eloquent
+│   ├── Services/           # Lógica de negocio
+│   └── Providers/          # Service Providers
+├── bootstrap/              # Bootstrapping del framework
+├── config/                 # Archivos de configuración
+├── database/
+│   ├── migrations/         # Migraciones
+│   ├── seeders/            # Seeders
+│   └── factories/          # Factories para testing
+├── public/                 # Punto de entrada (index.php)
+├── resources/
+│   ├── views/              # Vistas Blade
+│   └── js/, css/           # Assets frontend
+├── routes/
+│   ├── web.php             # Rutas web
+│   └── api.php             # Rutas API
+├── storage/                # Logs, caché, archivos
+├── tests/                  # Tests unitarios y funcionales
+└── .env                    # Variables de entorno</pre>
+    </div>
+  </div>
+
+  <!-- INSTALACIÓN -->
+  <div id="instalacion" class="section">
+    <div class="section-title">Instalación desde cero</div>
+    <div class="card">
+      <h3>Requisitos del sistema</h3>
+      <ul>
+        <li>PHP 8.2 o superior con extensiones: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML</li>
+        <li>Composer (gestor de paquetes PHP)</li>
+        <li>Node.js + NPM (para frontend)</li>
+        <li>MySQL 8.0+ / PostgreSQL 15+ / SQLite</li>
+      </ul>
+    </div>
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Instalar Composer</h4><p>Descarga desde https://getcomposer.org o en Ubuntu: sudo apt install composer</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Instalar PHP 8.2+ en Ubuntu/Debian</h4></div></div>
+    <pre>sudo apt update
+sudo apt install php8.2 php8.2-cli php8.2-mbstring php8.2-xml \
+  php8.2-curl php8.2-zip php8.2-mysql php8.2-pdo php8.2-bcmath</pre>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Crear nuevo proyecto Laravel 12</h4></div></div>
+    <pre># Con el instalador de Laravel (recomendado)
+composer global require laravel/installer
+laravel new mi-proyecto
+
+# O directamente con Composer
+composer create-project laravel/laravel mi-proyecto "^12.0"
+
+# Con starter kit (elige React, Vue, Livewire, Svelte)
+laravel new mi-proyecto --kit=react</pre>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Configurar el archivo .env</h4></div></div>
+    <pre>APP_NAME=MiProyecto
+APP_ENV=local
+APP_KEY=          # Se genera con: php artisan key:generate
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mi_base_datos
+DB_USERNAME=root
+DB_PASSWORD=secreto</pre>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Generar clave y ejecutar migraciones</h4></div></div>
+    <pre>php artisan key:generate
+php artisan migrate
+php artisan serve      # Servidor de desarrollo en localhost:8000</pre>
+    <div class="tip">Usa php artisan para ver todos los comandos disponibles. Es tu herramienta más poderosa.</div>
+  </div>
+
+  <!-- APACHE -->
+  <div id="apache" class="section">
+    <div class="section-title">Configuración de Apache desde cero</div>
+    <div class="card">
+      <h3>Paso 1 — Instalar Apache y PHP</h3>
+      <pre>sudo apt update
+sudo apt install apache2 php8.2 libapache2-mod-php8.2 php8.2-mysql \
+  php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-bcmath
+
+# Habilitar mod_rewrite (OBLIGATORIO para Laravel)
+sudo a2enmod rewrite
+sudo systemctl restart apache2</pre>
+    </div>
+    <div class="card">
+      <h3>Paso 2 — Colocar el proyecto</h3>
+      <pre>sudo cp -r mi-proyecto /var/www/mi-proyecto
+
+# Ajustar permisos (MUY IMPORTANTE)
+sudo chown -R www-data:www-data /var/www/mi-proyecto
+sudo chmod -R 755 /var/www/mi-proyecto
+sudo chmod -R 775 /var/www/mi-proyecto/storage
+sudo chmod -R 775 /var/www/mi-proyecto/bootstrap/cache</pre>
+    </div>
+    <div class="card">
+      <h3>Paso 3 — Crear VirtualHost</h3>
+      <pre>sudo nano /etc/apache2/sites-available/mi-proyecto.conf</pre>
+      <pre>&lt;VirtualHost *:80&gt;
+    ServerName miapp.local
+    ServerAlias www.miapp.local
+    DocumentRoot /var/www/mi-proyecto/public
+
+    &lt;Directory /var/www/mi-proyecto/public&gt;
+        AllowOverride All
+        Require all granted
+        Options -Indexes +FollowSymLinks
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/laravel-error.log
+    CustomLog ${APACHE_LOG_DIR}/laravel-access.log combined
+&lt;/VirtualHost&gt;</pre>
+    </div>
+    <div class="card">
+      <h3>Paso 4 — Activar el sitio</h3>
+      <pre>sudo a2ensite mi-proyecto.conf
+sudo a2dissite 000-default.conf
+sudo systemctl reload apache2
+
+# Para desarrollo local:
+echo "127.0.0.1 miapp.local" | sudo tee -a /etc/hosts</pre>
+    </div>
+    <div class="card">
+      <h3>Paso 5 — .htaccess (ya incluido en Laravel)</h3>
+      <pre>&lt;IfModule mod_rewrite.c&gt;
+    &lt;IfModule mod_negotiation.c&gt;
+        Options -MultiViews -Indexes
+    &lt;/IfModule&gt;
+
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+&lt;/IfModule&gt;</pre>
+    </div>
+    <div class="warn">El DocumentRoot debe apuntar a la carpeta /public, nunca a la raíz del proyecto. Esto protege archivos sensibles como .env.</div>
+    <div class="card">
+      <h3>HTTPS con SSL (Let's Encrypt)</h3>
+      <pre>sudo apt install certbot python3-certbot-apache
+sudo certbot --apache -d miapp.com -d www.miapp.com
+sudo systemctl reload apache2</pre>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN -->
+  <div id="config" class="section">
+    <div class="section-title">Configuración general del framework</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Variables de entorno (.env)</h3>
+        <pre>APP_NAME="Mi App"
+APP_ENV=production
+APP_KEY=base64:xxx
+APP_DEBUG=false
+APP_URL=https://miapp.com
+APP_TIMEZONE=America/Lima
+
+LOG_CHANNEL=stack
+LOG_LEVEL=error
+
+QUEUE_CONNECTION=redis
+CACHE_STORE=redis
+SESSION_DRIVER=redis
+SESSION_LIFETIME=120
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=user
+MAIL_PASSWORD=pass
+MAIL_FROM_ADDRESS=no-reply@app.com</pre>
+      </div>
+      <div class="card">
+        <h3>config/app.php — opciones clave</h3>
+        <pre>return [
+  'name'     => env('APP_NAME', 'Laravel'),
+  'env'      => env('APP_ENV', 'production'),
+  'debug'    => env('APP_DEBUG', false),
+  'url'      => env('APP_URL', 'http://localhost'),
+  'timezone' => 'America/Lima',
+  'locale'   => 'es',
+  'fallback_locale' => 'en',
+  'providers' => [
+    App\Providers\AppServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+  ],
+];</pre>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Caché de configuración (producción)</h3>
+      <pre>php artisan config:cache    # Cachea config
+php artisan route:cache     # Cachea rutas
+php artisan view:cache      # Cachea vistas Blade
+php artisan event:cache     # Cachea eventos
+php artisan optimize        # Todos los anteriores juntos
+
+# Limpiar en desarrollo
+php artisan optimize:clear</pre>
+    </div>
+    <div class="card">
+      <h3>bootstrap/app.php (Laravel 11/12)</h3>
+      <pre>return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web:      __DIR__.'/../routes/web.php',
+        api:      __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
+        health:   '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->api(prepend: [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ]);
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();</pre>
+    </div>
+    <div class="card">
+      <h3>AppServiceProvider.php</h3>
+      <pre>public function boot(): void
+{
+    // Forzar HTTPS en producción
+    if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
+
+    // Prevenir N+1 queries en desarrollo
+    Model::preventLazyLoading(! app()->isProduction());
+
+    // Paginación con Tailwind
+    Paginator::useTailwind();
+}</pre>
+    </div>
+  </div>
+
+  <!-- CORS -->
+  <div id="cors" class="section">
+    <div class="section-title">Configuración de CORS</div>
+    <div class="info">CORS (Cross-Origin Resource Sharing) permite o bloquea peticiones desde dominios distintos a tu API. En Laravel se configura en config/cors.php.</div>
+    <div class="card">
+      <h3>config/cors.php completo</h3>
+      <pre>return [
+    // Rutas que aplican CORS
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+
+    // Métodos HTTP permitidos
+    'allowed_methods' => ['*'],
+
+    // Orígenes permitidos
+    'allowed_origins' => [
+        'https://mi-frontend.com',
+        'https://app.mi-frontend.com',
+    ],
+
+    // Con patrones
+    'allowed_origins_patterns' => [
+        'https://*.mi-dominio.com',
+    ],
+
+    // Cabeceras permitidas en peticiones
+    'allowed_headers' => ['*'],
+
+    // Cabeceras expuestas al navegador
+    'exposed_headers' => [],
+
+    // Tiempo de caché para preflight (OPTIONS)
+    'max_age' => 0,
+
+    // NECESARIO para Sanctum con SPA
+    'supports_credentials' => true,
+];</pre>
+    </div>
+    <div class="card">
+      <h3>Solo en desarrollo — permitir todos los orígenes</h3>
+      <pre>'allowed_origins'     => ['*'],
+'supports_credentials' => false, // No compatible con '*'</pre>
+    </div>
+    <div class="card">
+      <h3>Registrar middleware CORS en bootstrap/app.php</h3>
+      <pre>->withMiddleware(function (Middleware $middleware) {
+    $middleware->api(prepend: [
+        \Illuminate\Http\Middleware\HandleCors::class,
+    ]);
+})</pre>
+    </div>
+    <div class="warn">Si usas Sanctum con SPA, debes tener supports_credentials: true y el origen debe estar explícitamente en allowed_origins (no '*').</div>
+    <div class="card">
+      <h3>Debug: verificar cabeceras CORS</h3>
+      <pre>curl -I -X OPTIONS https://miapi.com/api/users \
+  -H "Origin: https://mi-frontend.com" \
+  -H "Access-Control-Request-Method: GET"
+
+# Debes ver en la respuesta:
+# Access-Control-Allow-Origin: https://mi-frontend.com
+# Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+# Access-Control-Allow-Credentials: true</pre>
+    </div>
+  </div>
+
+  <!-- SANCTUM -->
+  <div id="sanctum" class="section">
+    <div class="section-title">Laravel Sanctum — Autenticación de APIs</div>
+    <div class="info">Sanctum provee autenticación liviana para SPAs, apps móviles y APIs simples basadas en tokens. Es la solución oficial de Laravel para auth de APIs.</div>
+    <div class="card">
+      <h3>Instalación</h3>
+      <pre>composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate</pre>
+    </div>
+    <div class="card">
+      <h3>Modelo User</h3>
+      <pre>use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+}</pre>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Auth con tokens (APIs móviles)</h3>
+        <pre>Route::post('/login', function (Request $request) {
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required',
+        'device'   => 'required|string',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json([
+            'message' => 'Credenciales incorrectas'
+        ], 401);
+    }
+
+    $token = $user->createToken(
+        $request->device,
+        ['read', 'write']
+    )->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'user'  => $user,
+    ]);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn(Request $r) => $r->user());
+    Route::post('/logout', function (Request $r) {
+        $r->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Sesión cerrada']);
+    });
+});</pre>
+      </div>
+      <div class="card">
+        <h3>Auth SPA (cookies + CSRF)</h3>
+        <pre>// config/sanctum.php
+'stateful' => explode(',', env(
+    'SANCTUM_STATEFUL_DOMAINS',
+    'localhost,localhost:3000,127.0.0.1'
+)),
+
+// .env
+SANCTUM_STATEFUL_DOMAINS=localhost:3000,app.midominio.com
+
+// bootstrap/app.php
+->withMiddleware(function (Middleware $m) {
+    $m->api(prepend: [
+        EnsureFrontendRequestsAreStateful::class,
+    ]);
+})
+
+// Frontend:
+// 1. GET /sanctum/csrf-cookie
+// 2. POST /login con X-XSRF-TOKEN</pre>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Token abilities (permisos granulares)</h3>
+      <pre>$token = $user->createToken('api-token', ['posts:read', 'posts:write']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/posts', fn() => Post::all())
+        ->middleware('abilities:posts:read');
+
+    Route::post('/posts', fn(Request $r) => Post::create($r->all()))
+        ->middleware('ability:posts:write');
+});
+
+// En controladores
+if ($request->user()->tokenCan('posts:write')) {
+    // tiene permiso
+}
+
+// Revocar todas las sesiones
+$user->tokens()->delete();</pre>
+    </div>
+    <div class="card">
+      <h3>Expiración de tokens</h3>
+      <pre>// config/sanctum.php
+'expiration' => 60 * 24 * 7, // 7 días (null = sin expiración)
+
+// Limpiar tokens expirados (scheduler)
+Schedule::command('sanctum:prune-expired --hours=24')->daily();</pre>
+    </div>
+  </div>
+
+  <!-- MIGRACIONES -->
+  <div id="migraciones" class="section">
+    <div class="section-title">Migraciones de base de datos</div>
+    <div class="info">Las migraciones son control de versiones para tu base de datos. Permiten crear, modificar y eliminar tablas de forma reproducible en cualquier entorno.</div>
+    <div class="card">
+      <h3>Comandos esenciales</h3>
+      <pre>php artisan make:migration create_productos_table
+php artisan make:migration add_precio_to_productos_table --table=productos
+
+php artisan migrate               # Ejecutar pendientes
+php artisan migrate:status        # Ver estado de cada migración
+php artisan migrate:rollback      # Revertir último batch
+php artisan migrate:rollback --step=3
+php artisan migrate:reset         # Revertir TODAS
+php artisan migrate:refresh       # Reset + migrate
+php artisan migrate:fresh         # Drop + migrate (más limpio)
+php artisan migrate:fresh --seed  # Con seeders</pre>
+    </div>
+    <div class="card">
+      <h3>Migración completa con todos los tipos de columna</h3>
+      <pre>return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('productos', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid')->unique();
+
+            $table->string('nombre', 200);
+            $table->string('slug')->unique();
+            $table->string('sku', 50)->nullable();
+            $table->text('descripcion')->nullable();
+            $table->longText('contenido')->nullable();
+
+            $table->decimal('precio', 10, 2);
+            $table->decimal('precio_oferta', 10, 2)->nullable();
+            $table->integer('stock')->default(0);
+            $table->unsignedBigInteger('visitas')->default(0);
+            $table->float('peso')->nullable();
+
+            $table->boolean('activo')->default(true);
+            $table->boolean('destacado')->default(false);
+            $table->enum('estado', ['borrador','publicado','archivado'])->default('borrador');
+
+            $table->json('atributos')->nullable();
+            $table->json('imagenes')->nullable();
+
+            $table->date('fecha_publicacion')->nullable();
+            $table->timestamp('publicado_en')->nullable();
+
+            $table->foreignId('categoria_id')
+                  ->constrained('categorias')
+                  ->cascadeOnDelete();
+
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->restrictOnDelete();
+
+            $table->index(['nombre', 'activo']);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('productos');
+    }
+};</pre>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Modificar tabla existente</h3>
+        <pre>Schema::table('productos', function (Blueprint $table) {
+    $table->string('codigo_barras')->after('sku')->nullable();
+    $table->string('nombre', 300)->change();
+    $table->renameColumn('precio', 'precio_base');
+    $table->dropColumn('campo_viejo');
+    $table->index('codigo_barras');
+    $table->foreignId('marca_id')
+          ->nullable()
+          ->constrained()
+          ->nullOnDelete();
+});</pre>
+      </div>
+      <div class="card">
+        <h3>Seeders y Factories</h3>
+        <pre">php artisan make:seeder ProductoSeeder
+php artisan make:factory ProductoFactory
+
+// ProductoFactory.php
+public function definition(): array
+{
+    return [
+        'nombre'  => fake()->words(3, true),
+        'slug'    => fake()->slug(),
+        'precio'  => fake()->randomFloat(2, 10, 500),
+        'stock'   => fake()->numberBetween(0, 100),
+        'activo'  => true,
+        'user_id' => User::factory(),
+    ];
+}
+
+// Ejecutar
+php artisan db:seed
+php artisan db:seed --class=ProductoSeeder</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELOQUENT -->
+  <div id="eloquent" class="section">
+    <div class="section-title">Eloquent ORM</div>
+    <div class="card">
+      <h3>Modelo completo</h3>
+      <pre>class Producto extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = ['nombre', 'precio', 'stock', 'categoria_id'];
+
+    protected $casts = [
+        'atributos'         => 'array',
+        'activo'            => 'boolean',
+        'precio'            => 'decimal:2',
+        'publicado_en'      => 'datetime',
+        'fecha_publicacion' => 'date',
+    ];
+
+    protected $hidden = ['deleted_at'];
+
+    public function categoria(): BelongsTo {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function pedidos(): BelongsToMany {
+        return $this->belongsToMany(Pedido::class)
+                    ->withPivot('cantidad', 'precio_unitario')
+                    ->withTimestamps();
+    }
+
+    public function scopeActivos(Builder $query): Builder {
+        return $query->where('activo', true);
+    }
+
+    protected function nombre(): Attribute {
+        return Attribute::make(
+            get: fn($v) => ucwords($v),
+            set: fn($v) => strtolower($v),
+        );
+    }
+}</pre>
+    </div>
+    <div class="card">
+      <h3>Consultas Eloquent — cheat sheet</h3>
+      <pre">Producto::all();
+Producto::find(1);
+Producto::findOrFail(1);
+Producto::first();
+
+Producto::where('activo', true)
+         ->where('precio', '>=', 100)
+         ->whereBetween('precio', [10, 500])
+         ->whereIn('id', [1, 2, 3])
+         ->whereNull('deleted_at')
+         ->whereHas('categoria', fn($q) => $q->where('slug', 'ropa'))
+         ->get();
+
+// Eager loading (evitar N+1)
+Producto::with(['categoria', 'pedidos'])->get();
+Producto::with('categoria:id,nombre')->get();
+
+// Agregaciones
+Producto::count();
+Producto::sum('stock');
+Producto::avg('precio');
+Producto::max('precio');
+
+// CRUD
+Producto::create(['nombre' => 'Laptop', 'precio' => 999]);
+Producto::updateOrCreate(['sku' => 'ABC'], ['precio' => 850]);
+$p = Producto::find(1);
+$p->update(['precio' => 799]);
+$p->delete();
+$p->forceDelete();
+
+// Scopes
+Producto::activos()->orderBy('nombre')->paginate(20);</pre>
+    </div>
+  </div>
+
+  <!-- RUTAS -->
+  <div id="rutas" class="section">
+    <div class="section-title">Rutas, Controllers y API Resources</div>
+    <div class="card">
+      <h3>routes/api.php — estructura RESTful</h3>
+      <pre">Route::prefix('v1')->group(function () {
+    Route::get('/productos', [ProductoController::class, 'index']);
+    Route::get('/productos/{producto}', [ProductoController::class, 'show']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('productos', ProductoController::class)
+             ->except(['index', 'show']);
+
+        Route::post('/productos/{producto}/duplicar',
+                    [ProductoController::class, 'duplicar']);
+    });
+});
+
+// php artisan make:controller Api/ProductoController --api --model=Producto</pre>
+    </div>
+    <div class="card">
+      <h3>API Resource Controller</h3>
+      <pre">class ProductoController extends Controller
+{
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $productos = Producto::query()
+            ->with('categoria')
+            ->when($request->search, fn($q, $s) =>
+                $q->where('nombre', 'like', "%$s%")
+            )
+            ->when($request->categoria, fn($q, $c) =>
+                $q->whereHas('categoria', fn($q) => $q->where('slug', $c))
+            )
+            ->activos()
+            ->orderBy('nombre')
+            ->paginate(20);
+
+        return ProductoResource::collection($productos);
+    }
+
+    public function store(StoreProductoRequest $request): ProductoResource
+    {
+        $producto = Producto::create($request->validated());
+        return new ProductoResource($producto);
+    }
+
+    public function show(Producto $producto): ProductoResource
+    {
+        return new ProductoResource($producto->load('categoria'));
+    }
+}</pre>
+    </div>
+    <div class="card">
+      <h3>API Resource (transformar respuestas)</h3>
+      <pre">// php artisan make:resource ProductoResource
+class ProductoResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'         => $this->id,
+            'nombre'     => $this->nombre,
+            'precio'     => number_format($this->precio, 2),
+            'stock'      => $this->stock,
+            'categoria'  => new CategoriaResource($this->whenLoaded('categoria')),
+            'created_at' => $this->created_at->toIso8601String(),
+        ];
+    }
+}</pre>
+    </div>
+  </div>
+
+  <!-- NOVEDADES V12 -->
+  <div id="v12" class="section">
+    <div class="section-title">Novedades de Laravel 12 (2025)</div>
+    <div class="two-col">
+      <div class="card">
+        <h3><span class="tag tag-new">Nuevo</span> Starter Kits modernos</h3>
+        <ul>
+          <li>React 19 + Inertia.js v2 + TypeScript</li>
+          <li>Vue 3 + Inertia.js v2 + TypeScript</li>
+          <li>Svelte + Inertia.js</li>
+          <li>Livewire v3 + Flux (gratis)</li>
+          <li>shadcn/ui components incluidos</li>
+          <li>Tailwind CSS v4</li>
+          <li>WorkOS AuthKit (SSO, passkeys, social auth)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="tag tag-new">Nuevo</span> Rendimiento mejorado</h3>
+        <ul>
+          <li>Basado en Symfony 7 (más rápido)</li>
+          <li>Lazy loading de Service Providers</li>
+          <li>Automatic eager loading (v12.8)</li>
+          <li>Menor uso de memoria en bootstrap</li>
+          <li>Health checks nativos en /up</li>
+          <li>Job Batching con progress() y callbacks</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-new">Nuevo</span> Automatic Eager Loading (Laravel 12.8)</h3>
+      <pre">// app/Providers/AppServiceProvider.php
+public function boot(): void
+{
+    Model::automaticallyEagerLoadRelationships();
+}
+
+// Ahora esto ya no genera N+1:
+$posts = Post::all();
+foreach ($posts as $post) {
+    echo $post->user->name; // Laravel auto-detecta y usa 1 sola consulta
+}</pre>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-config">Config</span> Job Batching mejorado</h3>
+      <pre">Bus::batch([
+    new ProcessPodcast,
+    new OptimizeImages,
+    new SendNewsletter,
+])->then(function (Batch $batch) {
+    Notify::success('Campaña publicada!');
+})->catch(function (Batch $batch, Throwable $e) {
+    Cleanup::dispatch($batch->id);
+})->finally(function (Batch $batch) {
+    Log::info("Progreso: {$batch->progress()}%");
+})->dispatch();</pre>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-config">Config</span> Ciclo de vida y upgrade</h3>
+      <pre">// Requisitos Laravel 12:
+// PHP mínimo: 8.2
+// Soporte activo: hasta agosto 2026
+// Soporte seguridad: hasta febrero 2027
+
+// Upgrade desde Laravel 11:
+// composer.json -> "laravel/framework": "^12.0"
+// composer update
+// php artisan migrate
+// php artisan optimize:clear</pre>
+    </div>
+  </div>
+
+  <footer>
+    Manual de Laravel 12 — Generado con Claude &middot; laravel.com/docs/12.x
+  </footer>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = {intro:0,instalacion:1,apache:2,config:3,cors:4,sanctum:5,migraciones:6,eloquent:7,rutas:8,v12:9};
+  const btns = document.querySelectorAll('.nav-btn');
+  if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
